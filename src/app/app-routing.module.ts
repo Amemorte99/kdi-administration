@@ -13,6 +13,11 @@ const routes: Routes = [
       import('./modules/dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
+    path: 'admin/offreur',
+    loadChildren: () =>
+      import('./modules/offreur/offreur.module').then((m) => m.OffreurModule),
+  },
+  {
     path: 'admin/partenaires',
     loadChildren: () =>
       import('./modules/agence/agence.module').then((m) => m.AgenceModule),
