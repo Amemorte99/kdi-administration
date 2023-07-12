@@ -1,5 +1,5 @@
 <main class="main-content mt-0 bg-white">
-  <section>
+  <section [formGroup]="loginForm" (ngSubmit)="onSubmitLoginForm()">
     <div class="page-header min-vh-100">
       <div class="container">
         <div class="row">
@@ -16,20 +16,25 @@
               <div class="card-body">
                 <form role="form">
                   <div class="mb-3">
-                    <input
-                      type="email"
-                      class="form-control form-control-lg"
-                      placeholder="Email"
-                      aria-label="Email"
-                    />
+                    <input type="email" class="form-control form-control-lg" placeholder="Email" aria-label="Email" formControlName="email"
+                      [ngClass]="
+                                          email?.['invalid']&&
+                                          email?.['touched']?'form-select is-invalid':'form-select'
+                                          " />
                   </div>
+                  <div *ngIf=" loginForm.get('email')?.['touched'] && loginForm.get('email')?.hasError('invalidInput')" >
+                    Convention de mail non respecté
+                 </div>
                   <div class="mb-3">
-                    <input
-                      type="password"
-                      class="form-control form-control-lg"
-                      placeholder="Mot de passe"
-                      aria-label="Password"
-                    />
+                    <input type="password" class="form-control form-control-lg" placeholder="Mot de passe" aria-label="Password"
+                      formControlName="password" [ngClass]="
+                                                password?.['invalid']&&
+                                                password?.['touched']?'form-select is-invalid':'form-select'
+                                                " />
+                  </div>
+                  <div *ngIf="loginForm.get('password')?.errors?.['minlength']">
+                    Le mot de passe doit être au minimum
+                    {{loginForm.get('password')?.errors?.['minlength'].requiredLength}} caractères.
                   </div>
                   <div class="form-check form-switch">
                     <input
@@ -42,12 +47,14 @@
                     >
                   </div>
                   <div class="text-center">
-                    <a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active" 
-                      type="button"
-                      class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0"
-                    >
+                    <!-- <a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active" type="button"
+                      class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">
                       Connexion
-                  </a>
+                    </a> -->
+                    <button  
+                      [disabled]="loginForm.invalid" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0" [ngStyle]="{'color':'white'}">
+                      Connexion
+                    </button>
                   </div>
                 </form>
               </div>
