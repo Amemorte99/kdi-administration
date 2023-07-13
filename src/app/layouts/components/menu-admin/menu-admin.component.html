@@ -29,7 +29,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link " href="../pages/billing.html">
+            <a class="nav-link " (click)="openModal()">
                 <div
                     class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                     <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
@@ -37,6 +37,304 @@
                 <span class="nav-link-text ms-1">Biens & Produits</span>
             </a>
         </li>
+        <!-- Bootstrap Modal -->
+        <!-- <div class="modal-dialog modal-fullscreen-sm-down" id="myModal">
+
+        </div> -->
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Publier un bien </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Add your modal content here -->
+                        <!-- <p>This is the content of the modal.</p> -->
+
+                        <!-- accord -->
+                        <div class="container mt-5">
+                            <div class="accordion " id="accordionExample">
+                                <form #f="ngForm" class="my-4">
+                                <div class="card" >
+                                    <div class="card-header" id="section1" *ngIf="section1Depliable" >
+                                        <h2 class="mb-0" >
+                                            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                                aria-expanded="true" aria-controls="collapseOne"  
+                                                >
+                                                Section 1
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="section1" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="form-group mb-4 my-4">
+                                                <label for="typeBien">Type de bien</label>
+                                                <select #typeBien="ngModel" [(ngModel)]="good.typeBien" name="typeBien" id="typeBien"
+                                                    class="form-control form-control-lg input1 input-have" required>
+                                                    <option selected disabled>
+                                                        Choissisez le type de logement
+                                                    </option>
+                                                    <!-- <option *ngFor="let typeGood of typeOfGoods" [value]="typeGood._id">
+                                                        {{ typeGood.libelle }}
+                                                    </option> -->
+                                                    <option  [value]="1">
+                                                        lopi
+                                                    </option>
+                                                </select>
+                                                <div class="" *ngIf="typeBien.touched && typeBien.invalid">
+                                                    Le champ type de bien est requis.
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-4">
+                                                <label for="categoryBien">Categorie de bien</label>
+                                                <select #categoryBien="ngModel" [(ngModel)]="good.categoryBien" name="categoryBien" id="categoryBien"
+                                                    class="form-control form-control-lg input1 input-have" required>
+                                                    <option selected disabled>
+                                                        Choissisez la categorie du bien
+                                                    </option>
+                                                    <!-- <option *ngFor="let categorielist of categorieList" [value]="categorielist._id">
+                                                        {{ categorielist.libelle }}
+                                                    </option> -->
+                                                    <option [value]="1">
+                                                        mofor
+                                                    </option>
+                                                </select>
+                                                <div class="" *ngIf="categoryBien.touched && categoryBien.invalid">
+                                                    Le champ categorie de bien est requis.
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-4">
+                                                <label for="typeVisite">Type Visite</label>
+                                        
+                                                <select #typeVisite="ngModel" [(ngModel)]="good.typeVisite" name="typeVisite" id="typeVisite"
+                                                    class="form-control form-control-lg input1 input-have" required>
+                                                    <option selected disabled>
+                                                        Choissisez les types de visite
+                                                    </option>
+                                                    <!-- <option *ngFor="let typevisitelist of typeVisiteList" [value]="typevisitelist._id">
+                                                        {{ typevisitelist.libelle }}
+                                                    </option> -->
+                                                    <option [value]="1">
+                                                        lome
+                                                    </option>
+                                                </select>
+                                                <div class="" *ngIf="typeVisite.touched && typeVisite.invalid">
+                                                    Le champ type de visite est requis.
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-4">
+                                                <label for="title">Titre</label>
+                                                <input #title="ngModel" [(ngModel)]="good.titre" name="title" id="title" type="text"
+                                                    class="form-control form-control-lg input1 input-have" required />
+                                                <div class="" *ngIf="title.touched && title.invalid">
+                                                    Le titre est requis.
+                                                </div>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <div class="card">
+                                    <div class="card-header" id="section2" *ngIf="section2Depliable">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                                data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"
+                                                  (click)="onSectionTwoTouch()">
+                                                Section 2
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="section2" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="form-group mb-4">
+                                                <label for="description">Description</label>
+                                                <input #description="ngModel" [(ngModel)]="good.description" name="description" id="description" type="text"
+                                                    class="form-control form-control-lg input1 input-have" required />
+                                                <div class="" *ngIf="description.touched && description.invalid">
+                                                    La description est requis.
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-4">
+                                                <label for="chambres">Chambre</label>
+                                                <input #chambres="ngModel" [(ngModel)]="good.chambres" name="chambres" id="chambres" type="number"
+                                                    class="form-control form-control-lg input1 input-have" required />
+                                                <div class="" *ngIf="chambres.touched && chambres.invalid">
+                                                    Le champ chambre est requis.
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-4">
+                                                <label for="capacite">Capacite</label>
+                                                <input #capacite="ngModel" [(ngModel)]="good.capacite" name="capacite" id="capacite" type="number"
+                                                    class="form-control form-control-lg input1 input-have" required />
+                                                <div class="" *ngIf="capacite.touched && capacite.invalid">
+                                                    Le champ capacite est requis.
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-4">
+                                                <label for="salleBains">Salle de bains</label>
+                                                <input #salleBains="ngModel" [(ngModel)]="good.salleBains" name="salleBains" id="salleBains" type="number"
+                                                    class="form-control form-control-lg input1 input-have" required />
+                                                <div class="" *ngIf="salleBains.touched && salleBains.invalid">
+                                                    Le champ salle de bain est requis.
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header" id="section3" *ngIf="section3Depliable">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                                data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
+                                                  (click)="onSectionThreeTouch()">
+                                                Section 3
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="section3" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                        <div class="form-group mb-4">
+                                            <label for="commodite">Commodités</label>
+                                            <input #commodite="ngModel" [(ngModel)]="good.commodite" name="commodite" id="commodite" type="text"
+                                                class="form-control form-control-lg input1 input-have" required />
+                                            <div class="" *ngIf="commodite.touched && commodite.invalid">
+                                                Le champ commodite est requis.
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="regle">Règle de maison</label>
+                                            <input #regle="ngModel" [(ngModel)]="good.regle" name="regle" id="regle" type="text"
+                                                class="form-control form-control-lg input1 input-have" required />
+                                            <div class="" *ngIf="regle.touched && regle.invalid">
+                                                Le champ règle est requis.
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="serviceSuplementaire">Service supplémentaire</label>
+                                            <input #serviceSuplementaire="ngModel" [(ngModel)]="good.serviceSuplementaire" name="serviceSuplementaire"
+                                                id="serviceSuplementaire" type="text" class="form-control form-control-lg input1 input-have" required />
+                                            <div class="" *ngIf="
+                                                          serviceSuplementaire.touched && serviceSuplementaire.invalid
+                                                        ">
+                                                Le champ service supplementaire est requis.
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="emplacement">Emplacement</label>
+                                            <input #emplacement="ngModel" [(ngModel)]="good.emplacement" name="emplacement" id="emplacement" type="text"
+                                                class="form-control form-control-lg input1 input-have" required />
+                                            <div class="" *ngIf="emplacement.touched && emplacement.invalid">
+                                                Le champ emplacement est requis.
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header" id="section4" *ngIf="section4Depliable">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour"
+                                                aria-expanded="false" aria-controls="collapseFour" (click)="onSectionFourTouch()">
+                                                Section 4
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseFour" class="collapse" aria-labelledby="section4" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                        <div class="form-group mb-4">
+                                            <label for="disponibilte">Disponibilité</label>
+                                            <input #disponibilte="ngModel" [(ngModel)]="good.disponibilte" name="disponibilte" id="disponibilte" type="text"
+                                                class="form-control form-control-lg input1 input-have" required />
+                                            <div class="" *ngIf="disponibilte.touched && disponibilte.invalid">
+                                                Le champ disponibilité est requis.
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="pays">Pays</label>
+                                            <input #pays="ngModel" [(ngModel)]="good.pays" name="pays" id="pays" type="text"
+                                                class="form-control form-control-lg input1 input-have" required />
+                                            <div class="" *ngIf="pays.touched && pays.invalid">
+                                                Le champ pays est requis.
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="zones">Zones</label>
+                                            <input #zones="ngModel" [(ngModel)]="good.zones" name="zones" id="zones" type="text"
+                                                class="form-control form-control-lg input1 input-have" required />
+                                            <div class="" *ngIf="zones.touched && zones.invalid">
+                                                Le champ zone est requis.
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="tarifs">Tarifs</label>
+                                            <input #tarifs="ngModel" [(ngModel)]="good.tarifs" name="tarifs" id="tarifs" type="number"
+                                                class="form-control form-control-lg input1 input-have" required />
+                                            <div class="" *ngIf="tarifs.touched && tarifs.invalid">
+                                                Le champ tarifs est requis.
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header" id="section5" *ngIf="section5Depliable">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive"
+                                                aria-expanded="false" aria-controls="collapseFive" (click)="onSectionFiveTouch()">
+                                                Section 5
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseFive" class="collapse" aria-labelledby="section5" data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <div class="form-group mb-4 my-5">
+                                                <label for="atouts">Atouts</label>
+                                                <ng-select (change)="onChangeAtouts($event)" [items]="atoutsList" bindLabel="libelle" bindValue="atoutsList._id"
+                                                    [multiple]="true" placeholder="cliquez ici pour selectionnez vos atouts">
+                                                </ng-select>
+                                            </div>
+                                            <div class="form-group mb-4 my-5">
+                                                <label for="properties">Propriétés</label>
+                                                <ng-select (change)="onChangeProperties($event)" [items]="propertiesList" bindLabel="libelle"
+                                                    bindValue="propertiesList._id" [multiple]="true" placeholder="cliquez ici pour selectionnez vos propriétés">
+                                                </ng-select>
+                                            </div>
+                                            
+                                            <div class="form-group mb-4">
+                                                <label for="photos">Photo</label>
+                                                <div class="input-group">
+                                                    <div class="input-group mb-4">
+                                                        <input name="photos" value="filteredArray" type="file" id="file" accept="image/png, image/jpeg, image/jpg"
+                                                            (change)="chargerPdf($event)" class="form-control form-control-lg input1 input-have" />
+                                            
+                                                        <button class="btn btn-primary px-4" [disabled]="!fileActiveBool" type="button" (click)="uploadFiles()">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <!-- fin accord -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" [disabled]="!f.valid" (click)="save(f.value)">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <li class="nav-item">
             <a class="nav-link " href="../pages/virtual-reality.html">
                 <div

@@ -5,6 +5,8 @@ import { MenuAdminComponent } from './components/menu-admin/menu-admin.component
 import { FooterAdminComponent } from './components/footer-admin/footer-admin.component';
 import { ParamAdminComponent } from './components/param-admin/param-admin.component';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -17,7 +19,9 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    NgSelectModule
   ],
   exports: [
     HeaderAdminComponent,
