@@ -12,18 +12,18 @@ declare var $: any;
 })
 export class MenuAdminComponent implements OnInit {
   route: any;
+
   // pour le depliage de l'acordion
   section1Depliable: boolean = true;
-  section2Depliable: boolean = true;
-  section3Depliable: boolean = true;
-  section4Depliable: boolean = true;
-  section5Depliable: boolean = true;
+  // section2Depliable: boolean = true;
+
   // pour la verification des champs de chaque section de l'accordion
   section1Completed = false;
   section2Completed = false;
   section3Completed = false;
   section4Completed = false;
   section5Completed = false;
+  AllsectionFieldCompleted = false;
 
   step: number = 1;
   good = new Goods();
@@ -35,6 +35,7 @@ export class MenuAdminComponent implements OnInit {
   hasBeenPubished: boolean = false;
 
   infoGoods: any = {};
+  // infoBiens: any = {};
 
   selectedAtoutsIds!: string[];
   selectedPropertieIds!: string[];
@@ -86,17 +87,9 @@ export class MenuAdminComponent implements OnInit {
   // }
   onSectionTwoTouch() {
     this.section1Depliable = false;
-    // this.section2Depliable = false;
   }
-  onSectionThreeTouch() {
-    this.section2Depliable = false;
-  }
-  onSectionFourTouch() {
-    this.section3Depliable = false;
-  }
-  onSectionFiveTouch() {
-    this.section4Depliable = false;
-  }
+
+  
   // gestion des champs des section section
   isSection1Valid() {
     return (
@@ -106,20 +99,18 @@ export class MenuAdminComponent implements OnInit {
       this.good.titre
     );
   }
-  isSection2Valid() {
-    return (
-      this.good.description &&
-      this.good.chambres &&
-      this.good.capacite &&
-      this.good.salleBains
-    );
+  isSection2Valid(): boolean {
+    return !!this.good.description &&
+      !!this.good.chambres &&
+      !!this.good.capacite &&
+      !!this.good.salleBains;
   }
   isSection3Valid() {
     return (
-      this.good.commodite &&
-      this.good.regle &&
-      this.good.serviceSuplementaire &&
-      this.good.emplacement
+      !!this.good.commodite &&
+      !!this.good.regle &&
+      !!this.good.serviceSuplementaire &&
+      !!this.good.emplacement
     );
   }
   isSection4Valid() {
@@ -130,29 +121,58 @@ export class MenuAdminComponent implements OnInit {
       this.good.tarifs
     );
   }
+
   onSectionOneChange() {
     setTimeout(() => {
       this.section1Completed = this.isSection1Valid();
       this.section1Depliable = false;
+      this.section2Completed = this.isSection1Valid();
+
+      // concatenation des données section1
+      this.infoGoods.typeBien = this.good?.typeBien;
+      this.infoGoods.categoryBien = this.good?.categoryBien;
+      this.infoGoods.typeVisite = this.good?.typeVisite;
+      this.infoGoods.titre = this.good?.titre;
     }, 8000);
   }
- 
-  onSectionTwoChange() {
-    setTimeout(() => {
-      this.section2Completed = this.isSection2Valid();
-      this.section2Depliable = false;
-    }, 8000);
-  }
+onSectionTwoChange() {
+  setTimeout(() => {
+    this.section2Completed = false;
+    this.section3Completed = this.isSection2Valid();
+
+    // concatenation des données section2
+    this.infoGoods.description = this.good?.description;
+    this.infoGoods.chambres = this.good?.chambres;
+    this.infoGoods.capacite = this.good?.capacite;
+    this.infoGoods.salleBains = this.good?.salleBains;
+
+  }, 8000);
+}
   onSectionThreeChange() {
     setTimeout(() => {
-      this.section3Completed = this.isSection1Valid();
-      this.section3Depliable = false;
+      this.section3Completed = false
+      this.section4Completed = this.isSection3Valid();
+
+      // concatenation des données section3
+      this.infoGoods.commodite = this.good?.commodite;
+      this.infoGoods.emplacement = this.good?.emplacement;
+      this.infoGoods.serviceSuplementaire = this.good?.serviceSuplementaire;
+      this.infoGoods.regle = this.good?.regle;
     }, 8000);
   }
+
   onSectionFourChange() {
     setTimeout(() => {
-      this.section4Completed = this.isSection1Valid();
-      this.section4Depliable = false;
+      this.section4Completed = false
+      this.section5Completed = this.isSection3Valid();
+
+       // concatenation des données section3
+      this.infoGoods.disponibilte = this.good?.disponibilte;
+      this.infoGoods.tarifs = this.good?.tarifs;
+      this.infoGoods.zones = this.good?.zones;
+      this.infoGoods.pays = this.good?.pays;
+      this.infoGoods.atouts = this.selectedAtoutsIds;
+      this.infoGoods.properties = this.selectedPropertieIds;
     }, 8000);
   }
   onChangeProperties(e: any) {
@@ -162,6 +182,9 @@ export class MenuAdminComponent implements OnInit {
   }
   save(formdata: any) {
     console.log(formdata);
+    console.log(this.infoGoods)
+
+
   }
   save2(formdata: any) {
     if (this.step == 1) {

@@ -77,12 +77,12 @@
                                                     <option selected disabled>
                                                         Choissisez le type de logement
                                                     </option>
-                                                    <!-- <option *ngFor="let typeGood of typeOfGoods" [value]="typeGood._id">
+                                                    <option *ngFor="let typeGood of typeOfGoods" [value]="typeGood._id">
                                                         {{ typeGood.libelle }}
-                                                    </option> -->
-                                                    <option  [value]="1">
-                                                        lopi
                                                     </option>
+                                                    <!-- <option  [value]="1">
+                                                        lopi
+                                                    </option> -->
                                                 </select>
                                                 <div class="" *ngIf="typeBien.touched && typeBien.invalid">
                                                     Le champ type de bien est requis.
@@ -92,12 +92,12 @@
                                                 <label for="categoryBien">Categorie de bien</label>
                                                 <select #categoryBien="ngModel" [(ngModel)]="good.categoryBien" name="categoryBien" id="categoryBien"
                                                     class="form-control form-control-lg input1 input-have" required>
-                                                    <option selected disabled>
+                                                    <!-- <option selected disabled>
                                                         Choissisez la categorie du bien
-                                                    </option>
-                                                    <!-- <option *ngFor="let categorielist of categorieList" [value]="categorielist._id">
-                                                        {{ categorielist.libelle }}
                                                     </option> -->
+                                                    <option *ngFor="let categorielist of categorieList" [value]="categorielist._id">
+                                                        {{ categorielist.libelle }}
+                                                    </option>
                                                     <option [value]="1">
                                                         mofor
                                                     </option>
@@ -114,12 +114,12 @@
                                                     <option selected disabled>
                                                         Choissisez les types de visite
                                                     </option>
-                                                    <!-- <option *ngFor="let typevisitelist of typeVisiteList" [value]="typevisitelist._id">
+                                                    <option *ngFor="let typevisitelist of typeVisiteList" [value]="typevisitelist._id">
                                                         {{ typevisitelist.libelle }}
-                                                    </option> -->
-                                                    <option [value]="1">
-                                                        lome
                                                     </option>
+                                                    <!-- <option [value]="1">
+                                                        lome
+                                                    </option> -->
                                                 </select>
                                                 <div class="" *ngIf="typeVisite.touched && typeVisite.invalid">
                                                     Le champ type de visite est requis.
@@ -185,7 +185,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card" *ngIf="section3Completed">
+                                 <div class="card" *ngIf="section3Completed">
                                     <div class="card-header" id="section3" >
                                         <h2 class="mb-0">
                                             <button class="btn btn-link custom-button collapsed" type="button" data-toggle="collapse"
@@ -195,7 +195,7 @@
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapseThree" class="collapse" aria-labelledby="section3" data-parent="#accordionExample">
+                                    <div id="collapseThree" class="collapse show" aria-labelledby="section3" data-parent="#accordionExample">
                                         <div class="card-body">
                                         <div class="form-group mb-4">
                                             <label for="commodite">Commodités</label>
@@ -233,7 +233,7 @@
                                         </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
 
                                 <div class="card" *ngIf="section4Completed">
                                     <div class="card-header" id="section4" >
@@ -244,7 +244,7 @@
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapseFour" class="collapse" aria-labelledby="section4" data-parent="#accordionExample">
+                                    <div id="collapseFour" class="collapse show" aria-labelledby="section4" data-parent="#accordionExample">
                                         <div class="card-body">
                                         <div class="form-group mb-4">
                                             <label for="disponibilte">Disponibilité</label>
@@ -280,10 +280,10 @@
                                         </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
 
                                 <div class="card" *ngIf="section5Completed">
-                                    <div class="card-header" id="section5" *ngIf="section5Depliable">
+                                    <div class="card-header" id="section5" >
                                         <h2 class="mb-0">
                                             <button class="btn btn-link custom-button collapsed" type="button" data-toggle="collapse" data-target="#collapseFive"
                                                 aria-expanded="false" aria-controls="collapseFive" >
@@ -291,7 +291,7 @@
                                             </button>
                                         </h2>
                                     </div>
-                                    <div id="collapseFive" class="collapse" aria-labelledby="section5" data-parent="#accordionExample">
+                                    <div id="collapseFive" class="collapse show" aria-labelledby="section5" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="form-group mb-4 my-5">
                                                 <label for="atouts">Atouts</label>
@@ -321,7 +321,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
                                 </form>
                             </div>
                         </div>
@@ -331,7 +331,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger" [disabled]="!f.valid" (click)="save(f.value)" >Save changes</button>
+                        <button type="button" class="btn btn-danger" [disabled]="!section5Completed" (click)="save(f.value)" >Save changes</button>
                     </div>
                 </div>
             </div>

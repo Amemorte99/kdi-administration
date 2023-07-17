@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
     let body = new Users
     body.email = this.email?.value
     body.password = this.password?.value
-    // this.authservices.loginUser(body).subscribe((response)=>{
-    // })
+    this.authservices.loginUser(body).subscribe((response)=>{
+    })
     
   }
   get email(){
