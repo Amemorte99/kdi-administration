@@ -12,11 +12,19 @@ declare var $: any;
 })
 export class MenuAdminComponent implements OnInit {
   route: any;
+  // pour le depliage de l'acordion
   section1Depliable: boolean = true;
   section2Depliable: boolean = true;
   section3Depliable: boolean = true;
   section4Depliable: boolean = true;
   section5Depliable: boolean = true;
+  // pour la verification des champs de chaque section de l'accordion
+  section1Completed = false;
+  section2Completed = false;
+  section3Completed = false;
+  section4Completed = false;
+  section5Completed = false;
+
   step: number = 1;
   good = new Goods();
   categorieList!: any;
@@ -88,6 +96,64 @@ export class MenuAdminComponent implements OnInit {
   }
   onSectionFiveTouch() {
     this.section4Depliable = false;
+  }
+  // gestion des champs des section section
+  isSection1Valid() {
+    return (
+      this.good.typeBien &&
+      this.good.categoryBien &&
+      this.good.typeVisite &&
+      this.good.titre
+    );
+  }
+  isSection2Valid() {
+    return (
+      this.good.description &&
+      this.good.chambres &&
+      this.good.capacite &&
+      this.good.salleBains
+    );
+  }
+  isSection3Valid() {
+    return (
+      this.good.commodite &&
+      this.good.regle &&
+      this.good.serviceSuplementaire &&
+      this.good.emplacement
+    );
+  }
+  isSection4Valid() {
+    return (
+      this.good.disponibilte &&
+      this.good.pays &&
+      this.good.zones &&
+      this.good.tarifs
+    );
+  }
+  onSectionOneChange() {
+    setTimeout(() => {
+      this.section1Completed = this.isSection1Valid();
+      this.section1Depliable = false;
+    }, 8000);
+  }
+ 
+  onSectionTwoChange() {
+    setTimeout(() => {
+      this.section2Completed = this.isSection2Valid();
+      this.section2Depliable = false;
+    }, 8000);
+  }
+  onSectionThreeChange() {
+    setTimeout(() => {
+      this.section3Completed = this.isSection1Valid();
+      this.section3Depliable = false;
+    }, 8000);
+  }
+  onSectionFourChange() {
+    setTimeout(() => {
+      this.section4Completed = this.isSection1Valid();
+      this.section4Depliable = false;
+    }, 8000);
   }
   onChangeProperties(e: any) {
     console.log(e);

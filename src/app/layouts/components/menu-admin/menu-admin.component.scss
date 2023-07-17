@@ -1,0 +1,27 @@
+// .card{
+//     width:5rem;
+// }
+// .card-header .mb-0 {
+//     margin-bottom: 0;
+// }
+// .card-body .form-group {
+//     margin-bottom: 0;
+// }
+// .form-group {
+//     margin-bottom: 0.5rem;
+//     /* adjust this value to your desired spacing */
+// }
+.card-body{
+margin-top: -3rem
+}
+.custom-button{
+    margin-left: -1rem ;
+}
+.accordion-container {
+    max-width: 500px;
+    /* Adjust the value as per your requirement */
+    margin-left: 0;
+        /* Add this line to remove any left margin */
+        // margin-right: auto;
+        /* Add this line to center the accordion horizontally */
+}
