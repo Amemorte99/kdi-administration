@@ -75,4 +75,5 @@ export class AuthService {
   getAgoodByOffreurId(id: string): Observable<any> {
     return this.httpservice.getRequest(`api/biens/getByIdOffreur/${id}`);
   }
+  
 }

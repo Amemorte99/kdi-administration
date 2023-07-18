@@ -22,6 +22,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/agence/agence.module').then((m) => m.AgenceModule),
   },
+  {
+    path: 'admin/bien',
+    loadChildren: () =>
+      import('./modules/bien/bien.module').then((m) => m.BienModule),
+  },
 ];
 
 @NgModule({
