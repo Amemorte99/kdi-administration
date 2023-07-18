@@ -49,31 +49,6 @@ export class AuthService {
     });
   }
 
-  // les routes pou la publication d'un bien
-  typeOfGoodsList(): Observable<any> {
-    return this.httpservice.getRequest(`api/typeBiens/list`);
-  }
-  categorieList(): Observable<any> {
-    return this.httpservice.getRequest('api/categoryBiens/list');
-  }
-  atoutsLists(): Observable<any> {
-    return this.httpservice.getRequest('api/atouts/list');
-  }
-  propertiesList(): Observable<any> {
-    return this.httpservice.getRequest('api/properties/list');
-  }
-  typeVisiteList(): Observable<any> {
-    return this.httpservice.getRequest('api/typeVisites/list');
-  }
-  publishGoods(data: any) {
-    return this.httpservice.postRequest('api/biens/save', data);
-  }
-
-  getAgoodByHisId(id: string): Observable<any> {
-    return this.httpservice.getRequest(`api/biens/getById/${id}`);
-  }
-  getAgoodByOffreurId(id: string): Observable<any> {
-    return this.httpservice.getRequest(`api/biens/getByIdOffreur/${id}`);
-  }
+  
   
 }

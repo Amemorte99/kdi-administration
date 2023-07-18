@@ -4,6 +4,7 @@ import { Subject, of, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/modules/auth/common/auth.service';
 import { ShareddataService } from 'src/app/shared/common/shareddata.service';
 import { Goods } from 'src/app/shared/models/goods';
+import { BienService } from '../../common/bien.service';
 
 declare var $: any; 
 
@@ -30,6 +31,8 @@ export class ListeComponent implements OnInit {
   modalOpen$ = this.modalOpenSubject.asObservable();
 
   isPublished: boolean = true;
+
+  goodsData!: any;
 
   step: number = 1;
   good = new Goods();
@@ -69,6 +72,7 @@ export class ListeComponent implements OnInit {
   constructor(
     private router: Router,
     private authservice: AuthService,
+    private bienservice: BienService,
     private shareddataService: ShareddataService
   ) {}
 
@@ -185,18 +189,21 @@ export class ListeComponent implements OnInit {
       this.infoGoods.pays = this.good?.pays;
       this.infoGoods.atouts = this.selectedAtoutsIds;
       this.infoGoods.properties = this.selectedPropertieIds;
+      console.log(this.infoGoods);
+      // this.save2(this.infoGoods);
     }, 8000);
   }
-  publishOrShowGood(){
+  publishOrShowGood() {
     if (this.isPublished) {
-      console.log("affiche le bien")
-      this.router.navigate(['/admin/bien/detail/1'])
-      // modal pour afficher le bien 
+      console.log('affiche le bien');
+      this.router.navigate(['/admin/bien/detail/1']);
+      // modal pour afficher le bien
     } else {
-      // methode pour publier le bien 
+      // methode pour publier le bien
       console.log('publie le bien');
     }
   }
+
   onChangeProperties(e: any) {
     console.log(e);
     this.selectedPropertieIds = e.map((item: { _id: any }) => item._id);
@@ -207,91 +214,46 @@ export class ListeComponent implements OnInit {
     console.log(this.infoGoods);
   }
   save2(formdata: any) {
-    if (this.step == 1) {
-      console.log(this.step);
-      this.step += 1;
+    this.infoGoods.atouts = this.selectedAtoutsIds;
+    this.infoGoods.properties = this.selectedPropertieIds;
+    console.log(this.infoGoods);
+    // console.log(formdata)
+    console.log(this.dataFichier);
+    let data = this.dataFichier;
+    const formData = new FormData();
+    for (let i = 0; i < data.length; i++) {
+      console.log(data[i]);
+      formData.append('files', data[i], data[i].name);
+      formData.forEach((values) => console.log(values));
+    }
 
-      // console.log(formdata)
+    this.authservice.saveUserUploadFiles(formData).subscribe((response) => {
+      console.log(response.data);
+      const filteredArray = response.data.map(
+        (item: { filename: any }) => item.filename
+      );
+      console.log(filteredArray);
 
-      this.infoGoods.typeBien = formdata?.typeBien;
-      this.infoGoods.categoryBien = formdata?.categoryBien;
-      this.infoGoods.typeVisite = formdata?.typeVisite;
-      this.infoGoods.titre = formdata?.title;
+      this.getUserId().subscribe((result) => {
+        this.infoGoods.photos = filteredArray;
+        console.log(this.infoGoods);
 
-      console.log(this.infoGoods);
-    } else if (this.step == 2) {
-      console.log(this.step);
-      this.step += 1;
-      this.infoGoods.description = formdata.description;
-      this.infoGoods.chambres = formdata.chambres;
-      this.infoGoods.capacite = formdata.capacite;
-      this.infoGoods.salleBains = formdata.salleBains;
-      // console.log(formdata)
-      console.log(this.infoGoods);
-    } else if (this.step == 3) {
-      console.log(this.step);
-      this.step += 1;
-      this.infoGoods.commodite = formdata.commodite;
-      this.infoGoods.emplacement = formdata.emplacement;
-      this.infoGoods.serviceSuplementaire = formdata.serviceSuplementaire;
-      this.infoGoods.regle = formdata.regle;
-      // console.log(formdata)
-      console.log(this.infoGoods);
-    } else if (this.step == 4) {
-      console.log(this.step);
-      this.step += 1;
-      this.infoGoods.disponibilte = formdata.disponibilte;
-      this.infoGoods.tarifs = formdata.tarifs;
-      this.infoGoods.zones = formdata.zones;
-      this.infoGoods.pays = formdata.pays;
-      // console.log(formdata)
-      console.log(this.infoGoods);
-    } else if (this.step == 5) {
-      console.log(this.step);
-      this.step += 1;
-      this.infoGoods.atouts = this.selectedAtoutsIds;
-      this.infoGoods.properties = this.selectedPropertieIds;
-      console.log(this.infoGoods);
-      // console.log(formdata)
-      console.log(this.dataFichier);
-      let data = this.dataFichier;
-      const formData = new FormData();
-      for (let i = 0; i < data.length; i++) {
-        console.log(data[i]);
-        formData.append('files', data[i], data[i].name);
-        formData.forEach((values) => console.log(values));
-      }
-
-      this.authservice.saveUserUploadFiles(formData).subscribe((response) => {
-        console.log(response.data);
-        const filteredArray = response.data.map(
-          (item: { filename: any }) => item.filename
-        );
-        console.log(filteredArray);
-
-        this.getUserId().subscribe((result) => {
-          this.infoGoods.photos = filteredArray;
-          console.log(this.infoGoods);
-
-          if (this.infoGoods) {
-            setTimeout(() => {
-              this.ifFileIsUpload = false;
-              this.fileActiveBool = false;
-            }, 500);
+        if (this.infoGoods) {
+          setTimeout(() => {
+            this.ifFileIsUpload = false;
+            this.fileActiveBool = false;
+          }, 500);
+        }
+        this.bienservice.publishGoods(this.infoGoods).subscribe((response) => {
+          console.log(response);
+          if (response.status == true) {
+            this.hasBeenPubished = true;
+            console.log(this.hasBeenPubished);
+            this.router.navigate(['/admin/bien/liste']);
           }
-          this.authservice
-            .publishGoods(this.infoGoods)
-            .subscribe((response) => {
-              console.log(response);
-              if (response.status == true) {
-                this.hasBeenPubished = true;
-                console.log(this.hasBeenPubished);
-                this.router.navigate(['/admin/goods']);
-              }
-            });
         });
       });
-    }
+    });
   }
   changeEtape() {
     this.etape = 2;
@@ -314,29 +276,29 @@ export class ListeComponent implements OnInit {
     );
   }
   getTypeBiensList() {
-    this.authservice.typeOfGoodsList().subscribe((result) => {
+    this.bienservice.typeOfGoodsList().subscribe((result) => {
       this.typeOfGoods = result.typeBiens;
     });
   }
 
   getCategorieList() {
-    this.authservice.categorieList().subscribe((result) => {
+    this.bienservice.categorieList().subscribe((result) => {
       this.categorieList = result.categoryBiens;
     });
   }
   getAtoutsList() {
-    this.authservice.atoutsLists().subscribe((result) => {
+    this.bienservice.atoutsLists().subscribe((result) => {
       this.atoutsList = result.atouts;
       console.log(this.atoutsList);
     });
   }
   getPropertiesList() {
-    this.authservice.propertiesList().subscribe((result) => {
+    this.bienservice.propertiesList().subscribe((result) => {
       this.propertiesList = result.properties;
     });
   }
   getTypeVisiteList() {
-    this.authservice.typeVisiteList().subscribe((result) => {
+    this.bienservice.typeVisiteList().subscribe((result) => {
       this.typeVisiteList = result.typeVisites;
     });
   }
@@ -384,5 +346,19 @@ export class ListeComponent implements OnInit {
       this.preuves.push(this.fileBase);
       console.log(this.preuves);
     };
+  }
+  getOffreurListOfGoods() {
+    this.getUserId().subscribe((result) => {
+      console.log(result);
+
+      this.bienservice.getAgoodByOffreurId(result._id).subscribe((result) => {
+        console.log(result);
+        // const photoArray = result.biens.map((bien: { photos: any; }) => bien.photos);
+        // console.log(photoArray)
+
+        this.goodsData = result.biens;
+        // console.log("googgggg",this.goodsData)
+      });
+    });
   }
 }
