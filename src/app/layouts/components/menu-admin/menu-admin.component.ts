@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, of, switchMap } from 'rxjs';
 import { AuthService } from 'src/app/modules/auth/common/auth.service';
-import { ShareddataService } from 'src/app/shared/common/shareddata.service';
 import { Goods } from 'src/app/shared/models/goods';
 
 declare var $: any; 

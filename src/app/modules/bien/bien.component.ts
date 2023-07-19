@@ -8,6 +8,7 @@ import { ShareddataService } from 'src/app/shared/common/shareddata.service';
 })
 export class BienComponent implements OnInit {
   isModalOpen: boolean = false;
+  canPrintImage : boolean = false;
 
   constructor(private shareddataService: ShareddataService) {}
 
@@ -17,5 +18,11 @@ export class BienComponent implements OnInit {
        this.isModalOpen = value;
        console.log(value);
      });
-  }
+     this.shareddataService.currentBackgroundBoolVariable.subscribe((value) => {
+       // we used  the received boolean value in the sidebar component
+       this.canPrintImage = value;
+       console.log(value);
+     });
+   }
+
 }

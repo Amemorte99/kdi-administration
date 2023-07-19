@@ -4,6 +4,7 @@ import { BienService } from '../../common/bien.service';
 import { AuthService } from 'src/app/modules/auth/common/auth.service';
 import { of, switchMap } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ShareddataService } from 'src/app/shared/common/shareddata.service';
 
 @Component({
   selector: 'app-detail',
@@ -15,9 +16,11 @@ export class DetailComponent implements OnInit {
   goodsData!: any;
   photoArray! : any 
   apiUrl: any =  `${environment.apiUrl}api/uploads/get/`;
+  printImageOnBackground :boolean = false
   constructor(private bienservice: BienService, 
     private authservice : AuthService,
-    private route : ActivatedRoute) { }
+    private route : ActivatedRoute,
+    private shareddataService : ShareddataService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -55,6 +58,10 @@ export class DetailComponent implements OnInit {
       console.log(response)
       this.photoArray = response.photos
       console.log(this.photoArray)
+      if(this.photoArray){
+        this.shareddataService.updateBackgroundBoolVariable(true);
+
+      }
     })
   }
   // getOffreurListOfGoods() {

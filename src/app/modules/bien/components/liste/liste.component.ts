@@ -193,8 +193,8 @@ export class ListeComponent implements OnInit {
   }
   publishOrShowGood(e : any) {
 
-    // if (this.isPublished) {
-    if (e.etat == true) {
+    if (this.isPublished) {
+    // if (e.etat == true) {
       console.log(e)
       console.log('affiche le bien');
       this.router.navigate([`/admin/bien/detail/${e._id}`]); 
