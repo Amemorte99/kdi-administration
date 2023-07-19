@@ -77,6 +77,7 @@ export class ListeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getOffreurListOfGoods()
     // if ($) {
     //   console.log('jQuery is available');
     // } else {
@@ -118,13 +119,13 @@ export class ListeComponent implements OnInit {
     return (
       !!this.good.description &&
       !!this.good.chambres &&
-      !!this.good.capacite &&
+      !!this.good.commodite &&
       !!this.good.salleBains
     );
   }
   isSection3Valid() {
     return (
-      !!this.good.commodite &&
+      !!this.good.capacite &&
       !!this.good.regle &&
       !!this.good.serviceSuplementaire &&
       !!this.good.emplacement
@@ -150,7 +151,7 @@ export class ListeComponent implements OnInit {
       this.infoGoods.categoryBien = this.good?.categoryBien;
       this.infoGoods.typeVisite = this.good?.typeVisite;
       this.infoGoods.titre = this.good?.titre;
-    }, 8000);
+    }, 5000);
   }
   onSectionTwoChange() {
     setTimeout(() => {
@@ -162,7 +163,7 @@ export class ListeComponent implements OnInit {
       this.infoGoods.chambres = this.good?.chambres;
       this.infoGoods.capacite = this.good?.capacite;
       this.infoGoods.salleBains = this.good?.salleBains;
-    }, 8000);
+    }, 5000);
   }
   onSectionThreeChange() {
     setTimeout(() => {
@@ -174,7 +175,7 @@ export class ListeComponent implements OnInit {
       this.infoGoods.emplacement = this.good?.emplacement;
       this.infoGoods.serviceSuplementaire = this.good?.serviceSuplementaire;
       this.infoGoods.regle = this.good?.regle;
-    }, 8000);
+    }, 5000);
   }
 
   onSectionFourChange() {
@@ -187,20 +188,25 @@ export class ListeComponent implements OnInit {
       this.infoGoods.tarifs = this.good?.tarifs;
       this.infoGoods.zones = this.good?.zones;
       this.infoGoods.pays = this.good?.pays;
-      this.infoGoods.atouts = this.selectedAtoutsIds;
-      this.infoGoods.properties = this.selectedPropertieIds;
-      console.log(this.infoGoods);
-      // this.save2(this.infoGoods);
+    
     }, 8000);
   }
-  publishOrShowGood() {
-    if (this.isPublished) {
+  publishOrShowGood(e : any) {
+
+    // if (this.isPublished) {
+    if (e.etat == true) {
+      console.log(e)
       console.log('affiche le bien');
-      this.router.navigate(['/admin/bien/detail/1']);
+      this.router.navigate([`/admin/bien/detail/${e._id}`]); 
       // modal pour afficher le bien
-    } else {
+    }else {
       // methode pour publier le bien
       console.log('publie le bien');
+      console.log(e)
+      window.location.reload();
+
+
+      // this.router.navigate(['/admin/bien']);
     }
   }
 
@@ -210,8 +216,47 @@ export class ListeComponent implements OnInit {
     console.log(this.selectedPropertieIds);
   }
   save(formdata: any) {
-    console.log(formdata);
+    this.infoGoods.atouts = this.selectedAtoutsIds;
+    this.infoGoods.properties = this.selectedPropertieIds;
     console.log(this.infoGoods);
+    console.log(this.dataFichier);
+    let data = this.dataFichier;
+    const formData = new FormData();
+    for (let i = 0; i < data.length; i++) {
+      console.log(data[i]);
+      formData.append('files', data[i], data[i].name);
+      formData.forEach((values) => console.log(values));
+    }
+
+    this.authservice.saveUserUploadFiles(formData).subscribe((response) => {
+      console.log(response.data);
+      const filteredArray = response.data.map(
+        (item: { filename: any }) => item.filename
+      );
+      console.log(filteredArray);
+
+      this.getUserId().subscribe((result) => {
+        this.infoGoods.photos = filteredArray;
+        console.log(this.infoGoods);
+
+        if (this.infoGoods) {
+          setTimeout(() => {
+            this.ifFileIsUpload = false;
+            this.fileActiveBool = false;
+          }, 500);
+        }
+        this.bienservice.publishGoods(this.infoGoods).subscribe((response) => {
+          console.log(response);
+          if (response.status == true) {
+            this.hasBeenPubished = true;
+            console.log(this.hasBeenPubished);
+            this.router.navigate(['/admin/bien']);
+          }
+        });
+      });
+    });
+    // this.save2(this.infoGoods);
+    
   }
   save2(formdata: any) {
     this.infoGoods.atouts = this.selectedAtoutsIds;
@@ -249,7 +294,7 @@ export class ListeComponent implements OnInit {
           if (response.status == true) {
             this.hasBeenPubished = true;
             console.log(this.hasBeenPubished);
-            this.router.navigate(['/admin/bien/liste']);
+            this.router.navigate(['/admin/bien']);
           }
         });
       });
@@ -274,6 +319,19 @@ export class ListeComponent implements OnInit {
         return of(null);
       })
     );
+  }
+  // la liste des bien publiés
+  getOffreurListOfGoods() {
+    this.getUserId().subscribe((result) => {
+      console.log(result);
+
+      this.bienservice.getAgoodByOffreurId(result._id).subscribe((result) => {
+        console.log(result);
+        
+        this.goodsData = result.biens;
+        console.log("googgggg",this.goodsData)
+      });
+    });
   }
   getTypeBiensList() {
     this.bienservice.typeOfGoodsList().subscribe((result) => {
@@ -347,18 +405,5 @@ export class ListeComponent implements OnInit {
       console.log(this.preuves);
     };
   }
-  getOffreurListOfGoods() {
-    this.getUserId().subscribe((result) => {
-      console.log(result);
-
-      this.bienservice.getAgoodByOffreurId(result._id).subscribe((result) => {
-        console.log(result);
-        // const photoArray = result.biens.map((bien: { photos: any; }) => bien.photos);
-        // console.log(photoArray)
-
-        this.goodsData = result.biens;
-        // console.log("googgggg",this.goodsData)
-      });
-    });
-  }
+ 
 }

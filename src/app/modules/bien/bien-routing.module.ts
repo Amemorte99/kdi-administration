@@ -10,7 +10,7 @@ const routes: Routes = [
     component: BienComponent,
     children: [
       {
-        path: 'liste',
+        path: '',
         component: ListeComponent,
       },
       {
