@@ -1,66 +1,166 @@
 <!-- <div class="min-height-300 bg-primary position-absolute w-100" >
 
 </div> -->
-<div class="row">
-
-</div>
-<div class="row mt-4">
 
 
-</div>
-<div class="user-info">
-    <div class="d-flex justify-content-between">
-        <h6 class="mb-2">Informations du bien </h6>
-    </div>
-    
-    <div class="info">
-        <span class="info-label">Type de bien:</span>
-        <span class="info-value">Immobilier</span>
-    </div>
-    <div class="info">
-        <span class="info-label">Emplacement:</span>
-        <span class="info-value">Agoe cacaveli</span>
-    </div>
-    
-    <div class="info">
-        <span class="info-label">Type de visite:</span>
-        <span class="info-value">gratuit</span>
-    </div>
-    <div class="info">
-        <span class="info-label">Disponibilite:</span>
-        <span class="info-value">en usage</span>
-    </div>
-    <div class="info">
-        <span class="info-label">Tarifs:</span>
-        <span class="info-value">500000</span>
-    </div>
-</div>
 
-<div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-            aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-            aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-            aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
-            aria-label="Slide 4"></button>
-    </div>
 
-    <div class="carousel-inner">
-        <div *ngFor="let element of photoArray; let i=index" class="carousel-item {{i == 0 ? 'active': ''}}">
-            <img [src]="apiUrl + element" class="img-fluid img-product d-block w-25" alt="...">
+
+<div>
+    <div class="row mt-5 my-3">
+        <div class="col-md-4 mt-5">
+            <div class="card p-4">
+                <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                            class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                            aria-label="Slide 4"></button>
+                    </div>
+
+                    <div class="carousel-inner">
+                        <div *ngFor="let element of photoArray; let i=index"
+                            class="carousel-item {{i == 0 ? 'active': ''}}">
+                            <img [src]="apiUrl + element" class="img-fluid img-product d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 mt-5">
+            <div class="card">
+                <div class="card-header d-flex justify-content-center">
+                    <h2 class="mb-0">
+                        <h5 class="btn btn-link custom-button ">Informations du bien</h5>
+                    </h2>
+                </div>
+                <div class="card-body text-dark">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Type de bien: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.typeBien.libelle}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Categorie de bien: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.categoryBien.libelle}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Chambres: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.chambres}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Capacité: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.capacite}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Salle de bains:</small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.salleBains}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Type de visite: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.typeVisite?.libelle}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Disponibilite: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.disponibilte}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Tarifs: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.tarifs}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Pays: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.pays}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Zones: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.zones}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Emplacement: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.emplacement}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="d-flex justify-content-start mt-2">
+                                <p>
+                                    <small class="">Description: </small>
+                                    <small class=""><strong class="fw-bold">{{goodsData?.description}}</strong></small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <button class="btn btn-primary text-white" (click)="publishGood(goodsData)"
+                            [disabled]="!goodsData.etat==false">
+                            publier le bien
+                            <span *ngIf="loading === true">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="visually-hidden">Loading...</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
         </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-        data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div> 

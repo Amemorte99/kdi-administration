@@ -40,7 +40,7 @@
                         <tbody *ngFor="let item of goodsData">
                             <tr>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{item.initDate}}</span>
+                                    <span class="text-secondary text-xs font-weight-bold">{{item.initDate | date}}</span>
                                 </td>
                                 <td>
                                     <div class="d-flex px-2 py-1">
@@ -64,15 +64,15 @@
                                    
                                     <p class="text-xs text-secondary mb-0">{{item.categoryBien.libelle}}</p>
                                 </td>
-                                <td class="align-middle  font-weight-bold text-center text-sm">
-                                    <span class="text-success">{{item.etat? 'publié' : 'non publié'}}</span>
+                                <td class="align-middle  font-weight-bold text-center text-sm"
+                                >
+                                    <span  [ngClass]="{'text-success': item.etat, 'text-danger': !item.etat}">{{item.etat? 'publié' : 'non publié'}}</span>
                                 </td>
                                 
                                 <td class="align-middle">
                                      
-                                        <button class="btn btn-outline-primary btn-xs px-4 my-1" (click)="publishOrShowGood(item)">
-                                            <!-- {{item.etat ? 'Détail' : 'Publier' }} -->
-                                            {{isPublished ? 'Détail' : 'Publier' }}
+                                        <button class="btn btn-outline-primary btn-xs px-4 my-1" (click)="viewGoodDetail(item)">
+                                            Détail                         
                                         </button>
                                       
                                 </td>
@@ -93,16 +93,26 @@
             
                             <!-- accord -->
                             <div class="container accordion-container">
+                                
+                                <!-- <button type="button" class="btn btn-secondary" (click)="closeModal()">
+                                    <i class="mx-2 fa fa-times text-white" ></i>
+                                </button> -->
                                 <div class="accordion" id="accordionExample">
+                                    
                                     <form #f="ngForm" class="my-5">
+                                         
                                          <div class="card" *ngIf="section1Depliable">
-                                            <div class="card-header" id="section1">
+                                            <div class="card-header " id="section1">
                                                 <h2 class="mb-0">
-                                                    <button class="btn btn-link custom-button" type="button" data-toggle="collapse"
+                                                    <!-- <button class="btn btn-link custom-button" type="button" data-toggle="collapse"
                                                         data-target="#collapseOne" aria-expanded="true"
                                                         aria-controls="custom-buttoncollapseOne" style="margin-left: -1rem ;">
                                                         Paramètrage du bien
-                                                    </button>
+                                                    </button> -->
+                                                    <h5 class="btn btn-link custom-button">Paramètrage du bien</h5>
+                                                    <button type="button" class="btn btn-secondary" style="margin-left: 18rem;" (click)="closeModal()">
+                                                        <span aria-hidden="true">&times;</span>
+                                                      </button>
                                                 </h2>
                                             </div>
                                             <div id="collapseOne" class="collapse show" aria-labelledby="section1"
@@ -155,7 +165,7 @@
                                                     <div class="form-group mb-4">
                                                         <label for="typeVisite">Type Visite</label>
             
-                                                        <select #typeVisite="ngModel" [(ngModel)]="good.typeVisite" (ngModelChange)="onSectionOneChange()"
+                                                        <select #typeVisite="ngModel" [(ngModel)]="good.typeVisite" 
                                                             name="typeVisite" id="typeVisite"
                                                             class="form-control form-control-lg input1 input-have" required>
                                                             <option selected disabled>
@@ -171,6 +181,18 @@
                                                             Le champ type de visite est requis.
                                                         </div>
                                                     </div>
+                                                    <div class="form-group mb-4 topy d-flex justify-content-between">
+                                                        <div>
+
+                                                        </div>
+                                                        <button
+                                                          [disabled]="title?.['invalid'] || typeBien?.['invalid'] || categoryBien?.['invalid'] || typeVisite?.['invalid']"
+                                                          class="btn btn-primary text-white"
+                                                          (click)="save(f.value)"
+                                                        >
+                                                          Suivant <i class="mx-2 fa fa-arrow-right text-white" ></i>
+                                                        </button>
+                                                      </div>
                                                 </div>
                                             </div>
                                         </div> 
@@ -219,12 +241,24 @@
                                                     <div class="form-group mb-4">
                                                         <label for="chambres">Chambre</label>
                                                         <input #chambres="ngModel" [(ngModel)]="good.chambres" name="chambres"
-                                                            id="chambres" type="number"(ngModelChange)="onSectionTwoChange()"
+                                                            id="chambres" type="number"
                                                             class="form-control form-control-lg input1 input-have" required />
                                                         <div class="" *ngIf="chambres.touched && chambres.invalid">
                                                             Le champ chambre est requis.
                                                         </div>
                                                     </div>
+                                                    <div class="form-group mb-4 topy d-flex justify-content-between">
+                                                        <div>
+
+                                                        </div>
+                                                        <button
+                                                          [disabled]="description?.['invalid'] || commodite?.['invalid'] || salleBains?.['invalid'] || chambres?.['invalid']"
+                                                          class="btn btn-primary btn-lg text-white"
+                                                          (click)="save(f.value)"
+                                                        >
+                                                          Suivant <i class="mx-2 fa fa-arrow-right text-white"></i>
+                                                        </button>
+                                                      </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -275,12 +309,25 @@
                                                     <div class="form-group mb-4">
                                                         <label for="capacite">Capacite</label>
                                                         <input #capacite="ngModel" [(ngModel)]="good.capacite" name="capacite"
-                                                            id="capacite" type="number"(ngModelChange)="onSectionThreeChange()"
+                                                            id="capacite" type="number"
                                                             class="form-control form-control-lg input1 input-have" required />
                                                         <div class="" *ngIf="capacite.touched && capacite.invalid">
                                                             Le champ capacite est requis.
                                                         </div>
                                                     </div>
+
+                                                    <div class="form-group mb-4 topy d-flex justify-content-between">
+                                                        <div>
+
+                                                        </div>
+                                                        <button
+                                                          [disabled]="regle?.['invalid'] || serviceSuplementaire?.['invalid'] || emplacement?.['invalid'] || capacite?.['invalid']"
+                                                          class="btn btn-primary btn-lg text-white"
+                                                          (click)="save(f.value)"
+                                                        >
+                                                          Suivant <i class="mx-2 fa fa-arrow-right text-white"></i>
+                                                        </button>
+                                                      </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -329,11 +376,26 @@
                                                         <label for="tarifs">Tarifs</label>
                                                         <input #tarifs="ngModel" [(ngModel)]="good.tarifs" name="tarifs" id="tarifs"
                                                             type="number" class="form-control form-control-lg input1 input-have"
-                                                            (ngModelChange)="onSectionFourChange()" required />
+                                                            required />
                                                         <div class="" *ngIf="tarifs.touched && tarifs.invalid">
                                                             Le champ tarifs est requis.
                                                         </div>
                                                     </div>
+
+                                                    
+                                                    <div class="form-group mb-4 topy d-flex justify-content-between">
+                                                        <div>
+
+                                                        </div>
+                                                        <button
+                                                          [disabled]="disponibilte?.['invalid'] || pays?.['invalid'] || zones?.['invalid'] || tarifs?.['invalid']"
+                                                          class="btn btn-primary btn-lg text-white"
+                                                          (click)="save(f.value)"
+                                                        >
+                                                          Suivant <i class="mx-2 fa fa-arrow-right text-white"></i>
+                                                        </button>
+                                                      </div>
+
                                                 </div>
                                             </div>
                                         </div> 
@@ -382,6 +444,26 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="form-group mb-4 topy d-flex justify-content-between">
+                                                        <div>
+
+                                                        </div>
+                                                        <button
+                                                          [disabled]="!section5Completed || !ifFileIsUpload"
+                                                          class="btn btn-primary text-white"
+                                                          (click)="save(f.value)"
+                                                        >
+                                                          Terminer 
+                                                          <span *ngIf="loading === true">
+                                                            <span
+                                                              class="spinner-border spinner-border-sm"
+                                                              role="status"
+                                                              aria-hidden="true"
+                                                            ></span>
+                                                            <span class="visually-hidden">Loading...</span>
+                                                          </span>
+                                                        </button>
+                                                      </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -392,11 +474,11 @@
             
                             <!-- fin accord -->
                         </div>
-                        <div class="modal-footer">
+                        <!-- <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
-                            <button type="button" class="btn btn-danger" [disabled]="!section5Completed || !ifFileIsUpload"
-                                (click)="save(f.value)">Save changes</button>
-                        </div>
+                            <button type="button" class="btn btn-success" [disabled]="!section5Completed || !ifFileIsUpload"
+                                (click)="save(f.value)" style="color:white">Save changes</button>
+                        </div> -->
                     </div>
                 </div>
             </div>

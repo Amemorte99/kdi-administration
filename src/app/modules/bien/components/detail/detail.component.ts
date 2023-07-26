@@ -12,6 +12,7 @@ import { ShareddataService } from 'src/app/shared/common/shareddata.service';
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
+  loading = false;
   @Input() goodsDataInProduct : any 
   goodsData!: any;
   photoArray! : any 
@@ -56,6 +57,7 @@ export class DetailComponent implements OnInit {
   getAgoodDetail(id : string){
     this.bienservice.getAgoodByHisId(id).subscribe((response)=>{
       console.log(response)
+      this.goodsData=response
       this.photoArray = response.photos
       console.log(this.photoArray)
       if(this.photoArray){
@@ -82,4 +84,19 @@ export class DetailComponent implements OnInit {
   //   })
   // }
 
+  
+  publishGood(e: any) {
+    console.log(e._id)
+    this.loading=true
+
+   // changement de l'etat du bien a true
+    this.bienservice.enableGood(e._id).subscribe((response) => {
+      console.log('publie le bien');
+      console.log(response);
+      if (response.status==true) {
+         window.location.reload();
+      }
+    })
+
+  }
 }

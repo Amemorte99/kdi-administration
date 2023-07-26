@@ -25,6 +25,12 @@ export class BienService {
   publishGoods(data: any) {
     return this.httpservice.postRequest('api/biens/save', data);
   }
+  enableGood(id: string) {
+    return this.httpservice.getRequest(`api/biens/enable/${id}`);
+  }
+  disablehGood(id: string) {
+    return this.httpservice.getRequest(`api/biens/disable/${id}`);
+  }
 
   getAgoodByHisId(id: string): Observable<any> {
     return this.httpservice.getRequest(`api/biens/getById/${id}`);

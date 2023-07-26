@@ -6,7 +6,7 @@ import { ShareddataService } from 'src/app/shared/common/shareddata.service';
 import { Goods } from 'src/app/shared/models/goods';
 import { BienService } from '../../common/bien.service';
 
-declare var $: any; 
+declare var $: any;
 
 @Component({
   selector: 'app-liste',
@@ -14,19 +14,17 @@ declare var $: any;
   styleUrls: ['./liste.component.scss'],
 })
 export class ListeComponent implements OnInit {
+  loading = false;
   // pour le depliage de l'acordion
   section1Depliable: boolean = true;
-  // section2Depliable: boolean = true;
 
-  // pour la verification des champs de chaque section de l'accordion
   section1Completed = false;
   section2Completed = false;
   section3Completed = false;
   section4Completed = false;
   section5Completed = false;
-  AllsectionFieldCompleted = false;
 
-  //
+  
   private modalOpenSubject: Subject<boolean> = new Subject<boolean>();
   modalOpen$ = this.modalOpenSubject.asObservable();
 
@@ -44,7 +42,6 @@ export class ListeComponent implements OnInit {
   hasBeenPubished: boolean = false;
 
   infoGoods: any = {};
-  // infoBiens: any = {};
 
   selectedAtoutsIds!: string[];
   selectedPropertieIds!: string[];
@@ -74,7 +71,7 @@ export class ListeComponent implements OnInit {
     private authservice: AuthService,
     private bienservice: BienService,
     private shareddataService: ShareddataService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getOffreurListOfGoods()
@@ -99,216 +96,111 @@ export class ListeComponent implements OnInit {
     this.shareddataService.updateBoolVariable(false);
   }
 
-  // onSectionOneTouch() {
-  //   this.section1Depliable = false;
-  // }
-  onSectionTwoTouch() {
-    this.section1Depliable = false;
+
+  viewGoodDetail(e:any){
+    console.log(e);
+    this.router.navigate([`/admin/bien/detail/${e._id}`]);
   }
 
-  // gestion des champs des section section
-  isSection1Valid() {
-    return (
-      this.good.typeBien &&
-      this.good.categoryBien &&
-      this.good.typeVisite &&
-      this.good.titre
-    );
-  }
-  isSection2Valid(): boolean {
-    return (
-      !!this.good.description &&
-      !!this.good.chambres &&
-      !!this.good.commodite &&
-      !!this.good.salleBains
-    );
-  }
-  isSection3Valid() {
-    return (
-      !!this.good.capacite &&
-      !!this.good.regle &&
-      !!this.good.serviceSuplementaire &&
-      !!this.good.emplacement
-    );
-  }
-  isSection4Valid() {
-    return (
-      this.good.disponibilte &&
-      this.good.pays &&
-      this.good.zones &&
-      this.good.tarifs
-    );
-  }
-
-  onSectionOneChange() {
-    setTimeout(() => {
-      this.section1Completed = this.isSection1Valid();
-      this.section1Depliable = false;
-      this.section2Completed = this.isSection1Valid();
-
-      // concatenation des données section1
-      this.infoGoods.typeBien = this.good?.typeBien;
-      this.infoGoods.categoryBien = this.good?.categoryBien;
-      this.infoGoods.typeVisite = this.good?.typeVisite;
-      this.infoGoods.titre = this.good?.titre;
-    }, 5000);
-  }
-  onSectionTwoChange() {
-    setTimeout(() => {
-      this.section2Completed = false;
-      this.section3Completed = this.isSection2Valid();
-
-      // concatenation des données section2
-      this.infoGoods.description = this.good?.description;
-      this.infoGoods.chambres = this.good?.chambres;
-      this.infoGoods.capacite = this.good?.capacite;
-      this.infoGoods.salleBains = this.good?.salleBains;
-    }, 5000);
-  }
-  onSectionThreeChange() {
-    setTimeout(() => {
-      this.section3Completed = false;
-      this.section4Completed = this.isSection3Valid();
-
-      // concatenation des données section3
-      this.infoGoods.commodite = this.good?.commodite;
-      this.infoGoods.emplacement = this.good?.emplacement;
-      this.infoGoods.serviceSuplementaire = this.good?.serviceSuplementaire;
-      this.infoGoods.regle = this.good?.regle;
-    }, 5000);
-  }
-
-  onSectionFourChange() {
-    setTimeout(() => {
-      this.section4Completed = false;
-      this.section5Completed = this.isSection3Valid();
-
-      // concatenation des données section3
-      this.infoGoods.disponibilte = this.good?.disponibilte;
-      this.infoGoods.tarifs = this.good?.tarifs;
-      this.infoGoods.zones = this.good?.zones;
-      this.infoGoods.pays = this.good?.pays;
-    
-    }, 8000);
-  }
-  publishOrShowGood(e : any) {
-
-    if (this.isPublished) {
-    // if (e.etat == true) {
-      console.log(e)
-      console.log('affiche le bien');
-      this.router.navigate([`/admin/bien/detail/${e._id}`]); 
-      // modal pour afficher le bien
-    }else {
-      // methode pour publier le bien
-      console.log('publie le bien');
-      console.log(e)
-      window.location.reload();
-
-
-      // this.router.navigate(['/admin/bien']);
-    }
-  }
 
   onChangeProperties(e: any) {
     console.log(e);
     this.selectedPropertieIds = e.map((item: { _id: any }) => item._id);
     console.log(this.selectedPropertieIds);
   }
+
+
   save(formdata: any) {
-    this.infoGoods.atouts = this.selectedAtoutsIds;
-    this.infoGoods.properties = this.selectedPropertieIds;
-    console.log(this.infoGoods);
-    console.log(this.dataFichier);
-    let data = this.dataFichier;
-    const formData = new FormData();
-    for (let i = 0; i < data.length; i++) {
-      console.log(data[i]);
-      formData.append('files', data[i], data[i].name);
-      formData.forEach((values) => console.log(values));
+
+    if (this.section1Depliable == true) {
+      
+      this.infoGoods.typeBien = formdata?.typeBien
+      this.infoGoods.categoryBien = formdata?.categoryBien
+      this.infoGoods.typeVisite = formdata?.typeVisite
+      this.infoGoods.titre = formdata?.title
+      console.log(this.infoGoods)
+      this.section1Depliable = false;
+      this.section2Completed = true;
+
+    } else if (this.section2Completed) {
+      this.infoGoods.description = formdata.description
+      this.infoGoods.chambres = formdata.chambres;
+      this.infoGoods.commodite = formdata.commodite;
+      this.infoGoods.salleBains = formdata.salleBains;
+
+      this.section2Completed = false;
+      this.section3Completed = true;
+
+    } else if (this.section3Completed) {
+
+      this.infoGoods.capacite = formdata.capacite;
+      this.infoGoods.emplacement = formdata.emplacement;
+      this.infoGoods.serviceSuplementaire = formdata.serviceSuplementaire;
+      this.infoGoods.regle = formdata.regle;
+
+      this.section3Completed = false;
+      this.section4Completed = true;
+
+    } else if (this.section4Completed) {
+      this.infoGoods.disponibilte = formdata.disponibilte;
+      this.infoGoods.tarifs = formdata.tarifs;
+      this.infoGoods.zones = formdata.zones;
+      this.infoGoods.pays = formdata.pays;
+
+      this.section4Completed = false;
+      this.section5Completed = true;
+
     }
+    else if (this.section5Completed) {
+      console.log(this.section5Completed)
+      if(this.section5Completed){
+        this.loading=true
+      }
 
-    this.authservice.saveUserUploadFiles(formData).subscribe((response) => {
-      console.log(response.data);
-      const filteredArray = response.data.map(
-        (item: { filename: any }) => item.filename
-      );
-      console.log(filteredArray);
+      this.infoGoods.atouts = this.selectedAtoutsIds;
+      this.infoGoods.properties = this.selectedPropertieIds;
+      console.log(this.infoGoods);
+      console.log(this.dataFichier);
+      let data = this.dataFichier;
+      const formData = new FormData();
+      for (let i = 0; i < data.length; i++) {
+        console.log(data[i]);
+        formData.append('files', data[i], data[i].name);
+        formData.forEach((values) => console.log(values));
+      }
 
-      this.getUserId().subscribe((result) => {
-        this.infoGoods.photos = filteredArray;
-        console.log(this.infoGoods);
+      this.authservice.saveUserUploadFiles(formData).subscribe((response) => {
+        console.log(response.data);
+        const filteredArray = response.data.map(
+          (item: { filename: any }) => item.filename
+        );
+        console.log(filteredArray);
 
-        if (this.infoGoods) {
-          setTimeout(() => {
-            this.ifFileIsUpload = false;
-            this.fileActiveBool = false;
-          }, 500);
-        }
-        this.bienservice.publishGoods(this.infoGoods).subscribe((response) => {
-          console.log(response);
-          if (response.status == true) {
-            this.hasBeenPubished = true;
-            console.log(this.hasBeenPubished);
-            this.router.navigate(['/admin/bien']);
+        this.getUserId().subscribe((result) => {
+          this.infoGoods.photos = filteredArray;
+          console.log(this.infoGoods);
+
+          if (this.infoGoods) {
+            setTimeout(() => {
+              this.ifFileIsUpload = false;
+              this.fileActiveBool = false;
+            }, 500);
           }
+          this.bienservice.publishGoods(this.infoGoods).subscribe((response) => {
+            console.log(response);
+            if (response.status == true) {
+              this.hasBeenPubished = true;
+              console.log(this.hasBeenPubished);
+              // this.router.navigate(['/admin/bien']);
+              window.location.reload();
+            }
+          });
         });
       });
-    });
-    // this.save2(this.infoGoods);
-    
-  }
-  save2(formdata: any) {
-    this.infoGoods.atouts = this.selectedAtoutsIds;
-    this.infoGoods.properties = this.selectedPropertieIds;
-    console.log(this.infoGoods);
-    // console.log(formdata)
-    console.log(this.dataFichier);
-    let data = this.dataFichier;
-    const formData = new FormData();
-    for (let i = 0; i < data.length; i++) {
-      console.log(data[i]);
-      formData.append('files', data[i], data[i].name);
-      formData.forEach((values) => console.log(values));
     }
 
-    this.authservice.saveUserUploadFiles(formData).subscribe((response) => {
-      console.log(response.data);
-      const filteredArray = response.data.map(
-        (item: { filename: any }) => item.filename
-      );
-      console.log(filteredArray);
+  }
 
-      this.getUserId().subscribe((result) => {
-        this.infoGoods.photos = filteredArray;
-        console.log(this.infoGoods);
-
-        if (this.infoGoods) {
-          setTimeout(() => {
-            this.ifFileIsUpload = false;
-            this.fileActiveBool = false;
-          }, 500);
-        }
-        this.bienservice.publishGoods(this.infoGoods).subscribe((response) => {
-          console.log(response);
-          if (response.status == true) {
-            this.hasBeenPubished = true;
-            console.log(this.hasBeenPubished);
-            this.router.navigate(['/admin/bien']);
-          }
-        });
-      });
-    });
-  }
-  changeEtape() {
-    this.etape = 2;
-  }
-  onItemSelect(e: any) {
-    console.log(e);
-  }
-  onSelectAll(e: any) {
-    console.log(e);
-  }
   getUserId() {
     let token = JSON.parse(localStorage['userToken']);
     return this.authservice.decodeTokenAndGetUserEmail(token).pipe(
@@ -320,6 +212,7 @@ export class ListeComponent implements OnInit {
       })
     );
   }
+
   // la liste des bien publiés
   getOffreurListOfGoods() {
     this.getUserId().subscribe((result) => {
@@ -327,9 +220,9 @@ export class ListeComponent implements OnInit {
 
       this.bienservice.getAgoodByOffreurId(result._id).subscribe((result) => {
         console.log(result);
-        
+
         this.goodsData = result.biens;
-        console.log("googgggg",this.goodsData)
+        console.log("googgggg", this.goodsData)
       });
     });
   }
@@ -366,7 +259,7 @@ export class ListeComponent implements OnInit {
     console.log(this.selectedAtoutsIds);
   }
 
-  // when files changes
+  // quand le fichier change
   chargerPdf(e: any) {
     this.fileActiveBool = true;
     console.log(this.fileActiveBool);
@@ -381,7 +274,7 @@ export class ListeComponent implements OnInit {
     console.log(this.selectedFiles);
     this.getBase64(e.target.files[0]);
   }
-  // here we put file in an array
+  // on met les fichiers dans un tableau
   uploadFiles() {
     if (this.selectedFiles != null) {
       this.ifFileIsUpload = true;
@@ -405,5 +298,5 @@ export class ListeComponent implements OnInit {
       console.log(this.preuves);
     };
   }
- 
+
 }
