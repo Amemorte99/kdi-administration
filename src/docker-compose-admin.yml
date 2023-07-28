@@ -1,0 +1,26 @@
+
+version: "3"
+
+services:
+    kdi_admin:
+      container_name: kdi_admin
+      #hostname: dp-senyo
+      # image: esmc-web:v1
+      # image: kdi2022/kdi:kdi_front
+      build:
+        context: .
+        dockerfile: Dockerfile
+      restart: always
+      #command: tail -F anyts
+      ports:
+       #- "3000:3000"
+       - "4500:80"
+      #environment:
+       #- API_BASE_URL=http://160.242.199.14:8888
+      networks:
+        - my-srv-net
+
+networks:
+  my-srv-net:
+    # external:
+        name: my-ng-net
