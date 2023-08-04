@@ -11,7 +11,7 @@ RUN npm run build -- --configuration="production"
 
 # Stage 2
 FROM nginx:1.21.6-alpine
-EXPOSE 80
+EXPOSE 60
 
 RUN rm -rf /usr/share/nginx/html/*
 
