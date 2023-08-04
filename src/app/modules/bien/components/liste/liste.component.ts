@@ -66,6 +66,7 @@ export class ListeComponent implements OnInit {
   // end N
 
   etape: number = 1;
+  isLoading: boolean = true;
   constructor(
     private router: Router,
     private authservice: AuthService,
@@ -223,6 +224,9 @@ export class ListeComponent implements OnInit {
 
         this.goodsData = result.biens;
         console.log("googgggg", this.goodsData)
+        if( this.goodsData?.length > 0){
+          this.isLoading = !this.isLoading;
+       }
       });
     });
   }

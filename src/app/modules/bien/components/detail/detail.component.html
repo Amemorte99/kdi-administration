@@ -85,7 +85,7 @@
                         <div class="col-md-4">
                             <div class="d-flex justify-content-start mt-2">
                                 <p>
-                                    <small class="">Salle de bains:</small>
+                                    <small class="">Salle de bains: </small>
                                     <small class=""><strong class="fw-bold">{{goodsData?.salleBains}}</strong></small>
                                 </p>
                             </div>
@@ -182,7 +182,7 @@
                     </div>
                     <div class="mt-5">
                         <button class="btn btn-primary text-white" (click)="publishGood(goodsData)"
-                            [disabled]="!goodsData.etat==false">
+                            [disabled]="!goodsData?.etat==false">
                             publier le bien
                             <span *ngIf="loading === true">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
