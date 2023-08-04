@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { BienService } from '../../common/bien.service';
 import { AuthService } from 'src/app/modules/auth/common/auth.service';
 import { of, switchMap } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ShareddataService } from 'src/app/shared/common/shareddata.service';
 
 @Component({
@@ -21,6 +21,7 @@ export class DetailComponent implements OnInit {
   constructor(private bienservice: BienService, 
     private authservice : AuthService,
     private route : ActivatedRoute,
+    private router : Router,
     private shareddataService : ShareddataService) { }
 
   ngOnInit(): void {
@@ -94,9 +95,13 @@ export class DetailComponent implements OnInit {
       console.log('publie le bien');
       console.log(response);
       if (response.status==true) {
-         window.location.reload();
+        //  window.location.reload();
+         this.router.navigate(['/admin/bien'])
       }
     })
 
+  }
+  retour(){
+    this.router.navigate(['/admin/bien'])
   }
 }

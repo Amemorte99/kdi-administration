@@ -7,7 +7,13 @@
 
 
 <div>
+    
     <div class="row mt-5 my-3">
+        <div *ngIf="goodsData?.etat">
+            <button class="btn btn-primary text-white mx-2" (click)="retour()">
+                retour
+            </button>
+        </div>
         <div class="col-md-4 mt-5">
             <div class="card p-4">
                 <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -41,6 +47,7 @@
                 </div>
             </div>
         </div>
+        
         <div class="col-md-8 mt-5">
             <div class="card">
                 <div class="card-header d-flex justify-content-center">
@@ -189,6 +196,7 @@
                                 <span class="visually-hidden">Loading...</span>
                             </span>
                         </button>
+
                     </div>
                 </div>
 
