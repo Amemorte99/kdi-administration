@@ -24,7 +24,7 @@ export class ListeComponent implements OnInit {
   section4Completed = false;
   section5Completed = false;
 
-  
+
   private modalOpenSubject: Subject<boolean> = new Subject<boolean>();
   modalOpen$ = this.modalOpenSubject.asObservable();
 
@@ -100,13 +100,13 @@ export class ListeComponent implements OnInit {
 
   viewGoodDetail(e:any){
     console.log(e);
-    this.router.navigate([`/admin/bien/detail/${e._id}`]);
+    this.router.navigate([`/admin/bien/detail/${e?._id}`]);
   }
 
 
   onChangeProperties(e: any) {
     console.log(e);
-    this.selectedPropertieIds = e.map((item: { _id: any }) => item._id);
+    this.selectedPropertieIds = e.map((item: { _id: any }) => item?._id);
     console.log(this.selectedPropertieIds);
   }
 
@@ -114,7 +114,7 @@ export class ListeComponent implements OnInit {
   save(formdata: any) {
 
     if (this.section1Depliable == true) {
-      
+
       this.infoGoods.typeBien = formdata?.typeBien
       this.infoGoods.categoryBien = formdata?.categoryBien
       this.infoGoods.typeVisite = formdata?.typeVisite
@@ -219,13 +219,13 @@ export class ListeComponent implements OnInit {
     this.getUserId().subscribe((result) => {
       console.log(result);
 
-      this.bienservice.getAgoodByOffreurId(result._id).subscribe((result) => {
-        console.log(result);
+      this.bienservice.getAgoodByOffreurId(result?._id).subscribe((results) => {
+        console.log(results);
 
-        this.goodsData = result.biens;
+        this.goodsData = results.biens;
         console.log("googgggg", this.goodsData)
         if( this.goodsData?.length > 0){
-          this.isLoading = !this.isLoading;
+          this.isLoading = false;
        }
       });
     });
@@ -259,7 +259,7 @@ export class ListeComponent implements OnInit {
   }
   onChangeAtouts(e: any) {
     console.log(e);
-    this.selectedAtoutsIds = e.map((item: { _id: any }) => item._id);
+    this.selectedAtoutsIds = e.map((item: { _id: any }) => item?._id);
     console.log(this.selectedAtoutsIds);
   }
 
