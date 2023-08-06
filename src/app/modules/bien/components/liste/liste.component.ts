@@ -24,7 +24,6 @@ export class ListeComponent implements OnInit {
   section4Completed = false;
   section5Completed = false;
 
-  
   private modalOpenSubject: Subject<boolean> = new Subject<boolean>();
   modalOpen$ = this.modalOpenSubject.asObservable();
 
@@ -72,10 +71,10 @@ export class ListeComponent implements OnInit {
     private authservice: AuthService,
     private bienservice: BienService,
     private shareddataService: ShareddataService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.getOffreurListOfGoods()
+    this.getOffreurListOfGoods();
     // if ($) {
     //   console.log('jQuery is available');
     // } else {
@@ -89,20 +88,20 @@ export class ListeComponent implements OnInit {
   }
 
   openModal() {
+    this.isLoading = !this.isLoading;
     $('#myModal').modal('show');
     this.shareddataService.updateBoolVariable(true);
   }
   closeModal() {
+    this.isLoading = !this.isLoading;
     $('#myModal').modal('hide');
     this.shareddataService.updateBoolVariable(false);
   }
 
-
-  viewGoodDetail(e:any){
+  viewGoodDetail(e: any) {
     console.log(e);
     this.router.navigate([`/admin/bien/detail/${e._id}`]);
   }
-
 
   onChangeProperties(e: any) {
     console.log(e);
@@ -110,30 +109,24 @@ export class ListeComponent implements OnInit {
     console.log(this.selectedPropertieIds);
   }
 
-
   save(formdata: any) {
-
     if (this.section1Depliable == true) {
-      
-      this.infoGoods.typeBien = formdata?.typeBien
-      this.infoGoods.categoryBien = formdata?.categoryBien
-      this.infoGoods.typeVisite = formdata?.typeVisite
-      this.infoGoods.titre = formdata?.title
-      console.log(this.infoGoods)
+      this.infoGoods.typeBien = formdata?.typeBien;
+      this.infoGoods.categoryBien = formdata?.categoryBien;
+      this.infoGoods.typeVisite = formdata?.typeVisite;
+      this.infoGoods.titre = formdata?.title;
+      console.log(this.infoGoods);
       this.section1Depliable = false;
       this.section2Completed = true;
-
     } else if (this.section2Completed) {
-      this.infoGoods.description = formdata.description
+      this.infoGoods.description = formdata.description;
       this.infoGoods.chambres = formdata.chambres;
       this.infoGoods.commodite = formdata.commodite;
       this.infoGoods.salleBains = formdata.salleBains;
 
       this.section2Completed = false;
       this.section3Completed = true;
-
     } else if (this.section3Completed) {
-
       this.infoGoods.capacite = formdata.capacite;
       this.infoGoods.emplacement = formdata.emplacement;
       this.infoGoods.serviceSuplementaire = formdata.serviceSuplementaire;
@@ -141,7 +134,6 @@ export class ListeComponent implements OnInit {
 
       this.section3Completed = false;
       this.section4Completed = true;
-
     } else if (this.section4Completed) {
       this.infoGoods.disponibilte = formdata.disponibilte;
       this.infoGoods.tarifs = formdata.tarifs;
@@ -150,12 +142,10 @@ export class ListeComponent implements OnInit {
 
       this.section4Completed = false;
       this.section5Completed = true;
-
-    }
-    else if (this.section5Completed) {
-      console.log(this.section5Completed)
-      if(this.section5Completed){
-        this.loading=true
+    } else if (this.section5Completed) {
+      console.log(this.section5Completed);
+      if (this.section5Completed) {
+        this.loading = true;
       }
 
       this.infoGoods.atouts = this.selectedAtoutsIds;
@@ -187,19 +177,20 @@ export class ListeComponent implements OnInit {
               this.fileActiveBool = false;
             }, 500);
           }
-          this.bienservice.publishGoods(this.infoGoods).subscribe((response) => {
-            console.log(response);
-            if (response.status == true) {
-              this.hasBeenPubished = true;
-              console.log(this.hasBeenPubished);
-              // this.router.navigate(['/admin/bien']);
-              window.location.reload();
-            }
-          });
+          this.bienservice
+            .publishGoods(this.infoGoods)
+            .subscribe((response) => {
+              console.log(response);
+              if (response.status == true) {
+                this.hasBeenPubished = true;
+                console.log(this.hasBeenPubished);
+                // this.router.navigate(['/admin/bien']);
+                window.location.reload();
+              }
+            });
         });
       });
     }
-
   }
 
   getUserId() {
@@ -223,10 +214,10 @@ export class ListeComponent implements OnInit {
         console.log(result);
 
         this.goodsData = result.biens;
-        console.log("googgggg", this.goodsData)
-        if( this.goodsData?.length > 0){
+        console.log('googgggg', this.goodsData);
+        if (this.goodsData?.length > 0) {
           this.isLoading = !this.isLoading;
-       }
+        }
       });
     });
   }
@@ -302,5 +293,4 @@ export class ListeComponent implements OnInit {
       console.log(this.preuves);
     };
   }
-
 }
