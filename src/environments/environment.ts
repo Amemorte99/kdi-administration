@@ -6,8 +6,8 @@ export const environment = {
   production: false,
 
   // apiUrl: 'http://82.180.139.254:4300/'
-  apiUrl: 'https://api.kdi-imob.com/'
-  //  apiUrl: 'http://localhost:4300/'
+   apiUrl: 'http://localhost:4300/'
+
 };
 
 /*
