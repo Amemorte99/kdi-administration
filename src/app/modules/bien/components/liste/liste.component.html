@@ -41,8 +41,7 @@
                         <tbody *ngFor="let item of goodsData">
                             <tr>
                                 <td class="align-middle text-center">
-                                    <span class="text-secondary text-xs font-weight-bold">{{item?.initDate |
-                                        date}}</span>
+                                    <span class="text-secondary text-xs font-weight-bold">{{ item?.initDate | date:'yyyy-MM-dd HH:mm' }}</span>
                                 </td>
                                 <td>
                                     <div class="d-flex px-2 py-1">
