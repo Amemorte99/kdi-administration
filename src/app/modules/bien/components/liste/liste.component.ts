@@ -88,12 +88,15 @@ export class ListeComponent implements OnInit {
   }
 
   openModal() {
-    this.isLoading = !this.isLoading;
+    // this.isLoading = !this.isLoading;
+    this.isLoading = false;
+    console.log(this.isLoading)
+
     $('#myModal').modal('show');
     this.shareddataService.updateBoolVariable(true);
   }
   closeModal() {
-    this.isLoading = !this.isLoading;
+    console.log(this.isLoading)
     $('#myModal').modal('hide');
     this.shareddataService.updateBoolVariable(false);
   }
