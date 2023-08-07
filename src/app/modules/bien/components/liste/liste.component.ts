@@ -153,6 +153,10 @@ export class ListeComponent implements OnInit {
 
       this.infoGoods.atouts = this.selectedAtoutsIds;
       this.infoGoods.properties = this.selectedPropertieIds;
+      this.getUserId().subscribe((result) => {
+        console.log(result);
+        this.infoGoods.offreur= result._id
+      })
       console.log(this.infoGoods);
       console.log(this.dataFichier);
       let data = this.dataFichier;
