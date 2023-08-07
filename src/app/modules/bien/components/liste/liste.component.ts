@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/modules/auth/common/auth.service';
 import { ShareddataService } from 'src/app/shared/common/shareddata.service';
 import { Goods } from 'src/app/shared/models/goods';
 import { BienService } from '../../common/bien.service';
+import { SweetAlertService } from 'src/app/sweet-alert.service';
 
 declare var $: any;
 
@@ -70,7 +71,8 @@ export class ListeComponent implements OnInit {
     private router: Router,
     private authservice: AuthService,
     private bienservice: BienService,
-    private shareddataService: ShareddataService
+    private shareddataService: ShareddataService,
+    private sweetAlertService : SweetAlertService,
   ) {}
 
   ngOnInit(): void {
@@ -192,6 +194,10 @@ export class ListeComponent implements OnInit {
                 this.hasBeenPubished = true;
                 console.log(this.hasBeenPubished);
                 // this.router.navigate(['/admin/bien']);
+                this.sweetAlertService.showSuccessAlert(
+                            "Création u bien ",
+                            "La création du bien a été effectuer  avec success"
+                          );
                 window.location.reload();
               }
             });
@@ -220,7 +226,7 @@ export class ListeComponent implements OnInit {
       this.bienservice.getAgoodByOffreurId(result._id).subscribe((result) => {
         console.log(result);
 
-        this.goodsData = result.biens;
+        this.goodsData = result.data;
         console.log('googgggg', this.goodsData);
         if (this.goodsData?.length > 0) {
           this.isLoading = !this.isLoading;
