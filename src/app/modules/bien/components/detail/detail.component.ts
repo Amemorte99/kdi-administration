@@ -5,6 +5,7 @@ import { AuthService } from 'src/app/modules/auth/common/auth.service';
 import { of, switchMap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ShareddataService } from 'src/app/shared/common/shareddata.service';
+import { SweetAlertService } from 'src/app/sweet-alert.service';
 
 @Component({
   selector: 'app-detail',
@@ -22,7 +23,8 @@ export class DetailComponent implements OnInit {
     private authservice : AuthService,
     private route : ActivatedRoute,
     private router : Router,
-    private shareddataService : ShareddataService) { }
+    private shareddataService : ShareddataService,
+    private sweetAlertService : SweetAlertService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -96,6 +98,11 @@ export class DetailComponent implements OnInit {
       console.log(response);
       if (response.status==true) {
         //  window.location.reload();
+        this.sweetAlertService.showSuccessAlert(
+          "Publication de bien ",
+          "La publication du bien a été effectuer  avec success"
+        );
+
          this.router.navigate(['/admin/bien'])
       }
     })

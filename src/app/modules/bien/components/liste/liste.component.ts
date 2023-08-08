@@ -195,10 +195,13 @@ export class ListeComponent implements OnInit {
                 console.log(this.hasBeenPubished);
                 // this.router.navigate(['/admin/bien']);
                 this.sweetAlertService.showSuccessAlert(
-                            "Création u bien ",
+                            "Création de bien ",
                             "La création du bien a été effectuer  avec success"
                           );
-                window.location.reload();
+                // window.location.reload();
+                $('#myModal').modal('hide');
+                this.shareddataService.updateBoolVariable(false);
+                this.ngOnInit()
               }
             });
         });
